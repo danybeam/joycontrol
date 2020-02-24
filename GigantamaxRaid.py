@@ -10,19 +10,80 @@ from joycontrol.controller_state import ControllerState, button_push
 from joycontrol.protocol import controller_protocol_factory, Controller
 from joycontrol.server import create_hid_server
 
+# NOTE there IS a way to force shiny raids but it's not compatible with this particular rolling method
+
 logger = logging.getLogger(__name__)
 
 today = date.today()
 current_switch_date = [int(today.year),int(today.month),int(today.day)]
-months_31={1,3,5,7,8,10,12}
+YEAR = 0
+MONTH = 1
+DAY = 2
 months_30={4,6,9,11}
 
+# FINISHED
 def isLeap(year: int):
+    year = year%10000
+    leap = False
+    if (year % 4) == 0:  
+        if (year % 100) == 0:  
+            if (year % 400) == 0:  
+                return True  
+            else:  
+                return False  
+        else:  
+            return True   
+    return False
 
-
-# NOTE there IS a way to force shiny raids but it's not compatible with this particular rolling method
 async def switchDay(controller_state: ControllerState, connected=False):
-    pass
+    # start from the internet sync option
+    rollover_m = False
+    rollover_y = False
+    
+    # go down 1(+?) second
+    # press A to modify date
+    # add 1 day
+    # if day rollback to 1 change month
+    if current_switch_date[DAY] == 29 and\
+    current_switch_date[MONTH] == 2 and\
+    not isLeap(current_switch_date[YEAR]):
+        current_switch_date[DAY] = 1 # february rollover
+        current_switch_date[MONTH] = current_switch_date[MONTH] + 1
+        rollover_m = True
+
+    elif current_switch_date[DAY] == 30 and\
+    current_switch_date[MONTH] == 2 and\
+    isLeap(current_switch_date[YEAR]):
+        current_switch_date[DAY] = 1 # february leap rollover
+        current_switch_date[MONTH] = current_switch_date[MONTH] + 1
+        rollover_m = True
+
+    elif current_switch_date[DAY] == 31 and\
+    current_switch_date[MONTH] in months_30:
+        current_switch_date[DAY] = 1 # 30 days rollover
+        current_switch_date[MONTH] = current_switch_date[MONTH] + 1
+        rollover_m = True
+
+    elif current_switch_date[DAY] == 32 and\
+    current_switch_date[MONTH] not in months_30:
+        current_switch_date[DAY] = 1 # 31 days rollover
+        current_switch_date[MONTH] = current_switch_date[MONTH] + 1
+        rollover_m = True
+    
+    if current_switch_date[MONTH] == 13:
+        current_switch_date[MONTH] = 1 # happy new year
+        rollover_y = True
+
+    if rollover_m:
+        pass # go left then press up
+
+    if rollover_y:
+        pass # go right twice then press up
+    
+    # press right 1+ second
+    # press ok
+# END
+
 
 # FINISHED
 async def switchDayAndReturn(controller_state: ControllerState, connected=False, first=True):
