@@ -1,0 +1,159 @@
+
+import asyncio
+from PokemonCommons import *
+logger = logging.getLogger(__name__)
+
+import logging
+from joycontrol import logging_default as log
+from joycontrol.controller_state import ControllerState, button_push
+from joycontrol.protocol import controller_protocol_factory, Controller
+from joycontrol.server import create_hid_server
+
+
+async def rottoLotto(controller_state: ControllerState, connected=False, first=True):
+    if not connected:
+        connectControl(ControllerState)
+# Press A for prompt
+    print("trigger Rottom")
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(1)
+# A again for decision box
+    print("open decision box")
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(1)
+# Dowm 1 for rotto lotto
+    print("highlight rotto lotto")
+    await button_push(controller_state, 'down')
+    await asyncio.sleep(1)
+# A to chose(end loto id center)
+    print("chose rotto lotto")
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(1)
+# A change text(end you could)
+    print('End text: "you could"')
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(1)
+# A  change text(end prices)
+    print('End text: "prices"')
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(1)
+# A save
+    print('Trigger save')
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(5)  # wait 5 segundos
+# A(end text progress)
+    print('End text: "Progress"')
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(1)
+# A(end to you)
+    print('End text: "you"')
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(2)  # wait 2
+# A(...)
+    print('End text: "..."')
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(1)
+# A Number
+    print('End text: [ID NUMER]')
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(1)
+# A(ID number)
+    print('End text: "ID NUMER"')
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(10)  # Wait 10
+# A(Congrats)
+    print('End text: "Congrats"')
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(1)
+# A(name of poke)
+    print('End text: [NAME OF POKE]')
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(1)
+# A(number of digits matched)
+    print('End text: [NUMBER OF MATCHED DIGITS]')
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(1)
+# A(prize)
+    print('End text: [PRIZE]')
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(1)
+# A(you obtained item)
+    print('End text: [OBTAIN ITEM]')
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(1)
+# A(put item in bag)
+    print('End text: [PUT ITEM IN BAG]')
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(1)
+# A(next attempt)
+    print('End text: "next attempt"')
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(1)
+# A(exit texxt)
+    print('End text: [EXIT TEXT]')
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(1)
+# CHANGE DAY
+    switchDayAndReturn(controller_state, connected=True, first=first)
+
+
+async def _main(controller, capture_file=None, spi_flash=None):
+    factory = controller_protocol_factory(controller, spi_flash=spi_flash)
+    transport, protocol = await create_hid_server(factory, 17, 19, capture_file=capture_file)
+    controller_state = protocol.get_controller_state()
+    connectControl(controller_state)
+    first = True
+    while True:
+        await rottoLotto(controller_state, connected=True, first=first)
+        first = False
+    logger.info('Stopping communication...')
+    await transport.close()
+
+if __name__ == '__main__':
+    # check if root
+    if not os.geteuid() == 0:
+        raise PermissionError('Script must be run as root!')
+
+    # setup logging
+    log.configure()
+
+    parser = argparse.ArgumentParser()
+    # parser.add_argument('controller', help='JOYCON_R, JOYCON_L or PRO_CONTROLLER')
+    parser.add_argument('-l', '--log')
+    parser.add_argument('--spi_flash')
+    args = parser.parse_args()
+
+    """
+    if args.controller == 'JOYCON_R':
+        controller = Controller.JOYCON_R
+    elif args.controller == 'JOYCON_L':
+        controller = Controller.JOYCON_L
+    elif args.controller == 'PRO_CONTROLLER':
+        controller = Controller.PRO_CONTROLLER
+    else:
+        raise ValueError(f'Unknown controller "{args.controller}".')
+    """
+    controller = Controller.PRO_CONTROLLER
+
+    spi_flash = None
+    if args.spi_flash:
+        with open(args.spi_flash, 'rb') as spi_flash_file:
+            spi_flash = spi_flash_file.read()
+
+    # creates file if arg is given
+    @contextmanager
+    def get_output(path=None):
+        """
+        Opens file if path is given
+        """
+        if path is not None:
+            file = open(path, 'wb')
+            yield file
+            file.close()
+        else:
+            yield None
+
+    with get_output(args.log) as capture_file:
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(
+            _main(controller, capture_file=capture_file, spi_flash=spi_flash))
