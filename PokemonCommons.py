@@ -41,48 +41,46 @@ async def switchDay(controller_state: ControllerState, connected=False):
     rollover_y = False
     isLeapYear = isLeap(current_switch_date[YEAR])
 
-    # go down 1(+?) second
-    print("go to day")
-    await button_push(controller_state, 'down', sec=2)
-    await asyncio.sleep(0.3)
-    # press A to modify date
-    print("Enter date config")
-    await button_push(controller_state, 'a')
-    await asyncio.sleep(1)
-    # add 1 day
-    print("Change date")
-    await button_push(controller_state, 'a')
-    await asyncio.sleep(1)
+    # press right to highlight day
+    print("highlight day")
+    await button_push(controller_state, 'right')
+    await asyncio.sleep(0.5)
+    # press up to add day
+    print("add day")
+    await button_push(controller_state, 'up')
+    current_switch_date[DAY] += 1
+    await asyncio.sleep(0.5)
 
     # if day rollback to 1 change month
     if current_switch_date[DAY] == 29 and\
             current_switch_date[MONTH] == 2 and\
             not isLeapYear:
         current_switch_date[DAY] = 1  # february rollover
-        current_switch_date[MONTH] = current_switch_date[MONTH] + 1
+        current_switch_date[MONTH] += 1
         rollover_m = True
 
     elif current_switch_date[DAY] == 30 and\
             current_switch_date[MONTH] == 2 and\
             isLeapYear:
         current_switch_date[DAY] = 1  # february leap rollover
-        current_switch_date[MONTH] = current_switch_date[MONTH] + 1
+        current_switch_date[MONTH] += 1
         rollover_m = True
 
     elif current_switch_date[DAY] == 31 and\
             current_switch_date[MONTH] in months_30:
         current_switch_date[DAY] = 1  # 30 days rollover
-        current_switch_date[MONTH] = current_switch_date[MONTH] + 1
+        current_switch_date[MONTH] += 1
         rollover_m = True
 
     elif current_switch_date[DAY] == 32 and\
             current_switch_date[MONTH] not in months_30:
         current_switch_date[DAY] = 1  # 31 days rollover
-        current_switch_date[MONTH] = current_switch_date[MONTH] + 1
+        current_switch_date[MONTH] += 1
         rollover_m = True
 
     if current_switch_date[MONTH] == 13:
         current_switch_date[MONTH] = 1  # happy new year
+        current_switch_date[YEAR] += 1
         rollover_y = True
 
     if rollover_m:  # go left then press up
@@ -147,10 +145,6 @@ async def switchDayAndReturn(controller_state: ControllerState, connected=False,
     await asyncio.sleep(0.3)
     await button_push(controller_state, 'a')
     await asyncio.sleep(0.3)
-    print("date and time setting")
-    await button_push(controller_state, 'down', sec=0.5)
-    await button_push(controller_state, 'a')
-    await asyncio.sleep(1)
     # connect to the internet and disconnect to get current day
     if first:
         today = date.today()
@@ -162,6 +156,10 @@ async def switchDayAndReturn(controller_state: ControllerState, connected=False,
         print("unsync from internet")
         await button_push(controller_state, 'a')
         await asyncio.sleep(0.5)
+    print("date and time setting")
+    await button_push(controller_state, 'down', sec=1)
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(1)
     # switch day
     await switchDay(controller_state, connected=True)
     # return home
