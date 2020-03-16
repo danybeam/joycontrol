@@ -124,7 +124,7 @@ async def switchDayAndReturn(controller_state: ControllerState, connected=False,
     await button_push(controller_state, 'down', sec=1.0)
     await asyncio.sleep(0.3)
     print("Settings")
-    await button_push(controller_state, 'right', sec=0.5)
+    await button_push(controller_state, 'right', sec=1.0)
     await asyncio.sleep(0.3)
     await button_push(controller_state, 'left')
     await asyncio.sleep(0.3)

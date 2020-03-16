@@ -94,9 +94,9 @@ async def rottoLotto(controller_state: ControllerState, connected=False, first=T
     print('roll text: "see you next attempt"')
     await asyncio.sleep(1)
 # A(exit texxt)
-    # await button_push(controller_state, 'a')
-    #print('[EXIT TEXT]')
-    # await asyncio.sleep(2)
+    await button_push(controller_state, 'a')
+    print('[EXIT TEXT]')
+    await asyncio.sleep(2)
 # CHANGE DAY
     await switchDayAndReturn(controller_state, connected=True, first=first)
 
