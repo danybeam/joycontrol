@@ -131,4 +131,5 @@ if __name__ == '__main__':
 
     with get_output(args.log) as capture_file:
         loop = asyncio.get_event_loop()
-        loop.run_until_complete(_main(controller, capture_file=capture_file, spi_flash=spi_flash))
+        loop.run_until_complete(
+            _main(controller, capture_file=capture_file, spi_flash=spi_flash))
