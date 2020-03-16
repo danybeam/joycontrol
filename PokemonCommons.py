@@ -35,7 +35,7 @@ def isLeap(year: int):
 
 async def switchDay(controller_state: ControllerState, connected=False):
     if not connected:
-        connectControl(ControllerState)
+        await connectControl(ControllerState)
 
     rollover_m = False
     rollover_y = False
@@ -113,7 +113,7 @@ async def switchDay(controller_state: ControllerState, connected=False):
 # FINISHED
 async def switchDayAndReturn(controller_state: ControllerState, connected=False, first=True):
     if not connected:
-        connectControl(ControllerState)
+        await connectControl(ControllerState)
 
     # exit game
     print("going home")
@@ -176,7 +176,7 @@ async def switchDayAndReturn(controller_state: ControllerState, connected=False,
 # FINISHED
 async def restartGame(controller_state: ControllerState, connected=False):
     if not connected:
-        connectControl(ControllerState)
+        await connectControl(ControllerState)
     # Get out
     print("going home")
     await button_push(controller_state, 'home')

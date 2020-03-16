@@ -12,7 +12,7 @@ from joycontrol.server import create_hid_server
 
 async def rottoLotto(controller_state: ControllerState, connected=False, first=True):
     if not connected:
-        connectControl(ControllerState)
+        await connectControl(ControllerState)
 # Press A for prompt
     await button_push(controller_state, 'a')
     print("trigger Rottom")
@@ -52,7 +52,7 @@ async def rottoLotto(controller_state: ControllerState, connected=False, first=T
 # A(end to you)
     await button_push(controller_state, 'a')
     print('Roll text: best of luck')
-    await asyncio.sleep(3)  # wait 2
+    await asyncio.sleep(2)  # wait 2
 # A(...)
     await button_push(controller_state, 'a')
     print('Roll text: "..."')
@@ -64,7 +64,7 @@ async def rottoLotto(controller_state: ControllerState, connected=False, first=T
 # A(ID number)
     await button_push(controller_state, 'a')
     print('Roll text: "lets see if it matchesID NUMER"')
-    await asyncio.sleep(5)  # Wait 10
+    await asyncio.sleep(4)  # Wait 10
 # A(Congrats)
     await button_push(controller_state, 'a')
     print('roll text: "Congrats"')
@@ -80,11 +80,11 @@ async def rottoLotto(controller_state: ControllerState, connected=False, first=T
 # A(prize)
     await button_push(controller_state, 'a')
     print('Roll text: [PRIZE]')
-    await asyncio.sleep(2)
+    await asyncio.sleep(3)
 # A(you obtained item)
     await button_push(controller_state, 'a')
     print('roll text: [OBTAIN ITEM]')
-    await asyncio.sleep(1)
+    await asyncio.sleep(3)
 # A(put item in bag)
     await button_push(controller_state, 'a')
     print('roll text: [PUT ITEM IN BAG]')
@@ -96,7 +96,7 @@ async def rottoLotto(controller_state: ControllerState, connected=False, first=T
 # A(exit texxt)
     await button_push(controller_state, 'a')
     print('[EXIT TEXT]')
-    await asyncio.sleep(1)
+    await asyncio.sleep(2)
 # CHANGE DAY
     await switchDayAndReturn(controller_state, connected=True, first=first)
 
