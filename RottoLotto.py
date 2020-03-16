@@ -104,12 +104,16 @@ async def rottoLotto(controller_state: ControllerState, connected=False, first=T
 async def _main(controller, capture_file=None, spi_flash=None):
     factory = controller_protocol_factory(controller, spi_flash=spi_flash)
     transport, protocol = await create_hid_server(factory, 17, 19, capture_file=capture_file)
+
     controller_state = protocol.get_controller_state()
+
     await connectControl(controller_state)
+
     first = True
     while True:
         await rottoLotto(controller_state, connected=True, first=first)
         first = False
+
     logger.info('Stopping communication...')
     await transport.close()
 

@@ -201,9 +201,9 @@ async def restartGame(controller_state: ControllerState, connected=False):
 async def connectControl(controller_state: ControllerState):
     await controller_state.connect()  # asuming from sync controller
     # goto game
+    await button_push(controller_state, 'home')
     print("get out of controller")
+    await asyncio.sleep(2)
     await button_push(controller_state, 'home')
-    await asyncio.sleep(1)
     print("enter game")
-    await button_push(controller_state, 'home')
     await asyncio.sleep(2)
