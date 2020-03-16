@@ -152,10 +152,10 @@ async def switchDayAndReturn(controller_state: ControllerState, connected=False,
             int(today.year), int(today.month), int(today.day)]
         print("sync with internet")
         await button_push(controller_state, 'a')
-        await asyncio.sleep(0.5)
+        await asyncio.sleep(1)
         print("unsync from internet")
         await button_push(controller_state, 'a')
-        await asyncio.sleep(0.5)
+        await asyncio.sleep(1)
     print("date and time setting")
     await button_push(controller_state, 'down', sec=1)
     await button_push(controller_state, 'a')
