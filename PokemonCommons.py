@@ -53,21 +53,21 @@ async def switchDay(controller_state: ControllerState, connected=False):
     await asyncio.sleep(0.5)
 
     # if day rollback to 1 change month
-    if current_switch_date[DAY] == 29 and\
+    if current_switch_date[DAY] >= 29 and\
             current_switch_date[MONTH] == 2 and\
             not isLeapYear:
         rollover_m = True
 
-    elif current_switch_date[DAY] == 30 and\
+    if current_switch_date[DAY] >= 30 and\
             current_switch_date[MONTH] == 2 and\
             isLeapYear:
         rollover_m = True
 
-    elif current_switch_date[DAY] == 31 and\
+    if current_switch_date[DAY] >= 31 and\
             current_switch_date[MONTH] in months_30:
         rollover_m = True
 
-    elif current_switch_date[DAY] == 32 and\
+    if current_switch_date[DAY] >= 32 and\
             current_switch_date[MONTH] not in months_30:
         rollover_m = True
 
@@ -80,7 +80,7 @@ async def switchDay(controller_state: ControllerState, connected=False):
         current_switch_date[DAY] = 1  # month rollover
         current_switch_date[MONTH] += 1
 
-    if current_switch_date[MONTH] == 13:
+    if current_switch_date[MONTH] >= 13:
         rollover_y = True
 
     if rollover_y:  # go right twice then press up
@@ -143,18 +143,20 @@ async def switchDayAndReturn(controller_state: ControllerState, connected=False,
     await asyncio.sleep(0.3)
     # connect to the internet and disconnect to get current day
     if first:
-        today = date.today()
-        current_switch_date = [
-            int(today.year), int(today.month), int(today.day)]
-        current_switch_date[DAY] = 29
+        #today = date.today()
+        # current_switch_date = [
+        #    int(today.year), int(today.month), int(today.day)]
+        current_switch_date[DAY] = 31
         current_switch_date[MONTH] = 12
-        current_switch_date[YEAR] = 2025
+        current_switch_date[YEAR] = 2026
         #print("sync with internet")
         # await button_push(controller_state, 'a')
         # await asyncio.sleep(1)
         #print("unsync from internet")
         # await button_push(controller_state, 'a')
         # await asyncio.sleep(1)
+    print("Current date:")
+    print(current_switch_date)
     print("date and time setting")
     await button_push(controller_state, 'down', sec=1)
     await button_push(controller_state, 'a')
