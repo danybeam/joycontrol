@@ -153,9 +153,9 @@ async def switchDayAndReturn(controller_state: ControllerState, connected=False,
         #today = date.today()
         # current_switch_date = [
         #    int(today.year), int(today.month), int(today.day)]
-        current_switch_date[DAY] = 28
+        current_switch_date[DAY] = 29
         current_switch_date[MONTH] = 2
-        current_switch_date[YEAR] = 2028
+        current_switch_date[YEAR] = 2032
         #print("sync with internet")
         # await button_push(controller_state, 'a')
         # await asyncio.sleep(1)
