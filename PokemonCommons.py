@@ -153,7 +153,7 @@ async def switchDayAndReturn(controller_state: ControllerState, connected=False,
         #today = date.today()
         # current_switch_date = [
         #    int(today.year), int(today.month), int(today.day)]
-        current_switch_date[DAY] = 17
+        current_switch_date[DAY] = 18
         current_switch_date[MONTH] = 3
         current_switch_date[YEAR] = 2020
         #print("sync with internet")
