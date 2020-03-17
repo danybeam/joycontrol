@@ -17,7 +17,6 @@ YEAR = 0
 MONTH = 1
 DAY = 2
 months_30 = {4, 6, 9, 11}
-minute_up = False
 
 
 # FINISHED
@@ -97,6 +96,14 @@ async def switchDay(controller_state: ControllerState, connected=False):
     # press right 1+ second
     await button_push(controller_state, 'right', sec=2)
     await asyncio.sleep(1)
+    await button_push(controller_state, 'left')
+    await asyncio.sleep(1)
+    await button_push(controller_state, 'left')
+    await asyncio.sleep(1)
+    await button_push(controller_state, 'down')
+    await asyncio.sleep(1)
+    await button_push(controller_state, 'right', sec=2)
+    await asyncio.sleep(1)
 
     # press ok
     await button_push(controller_state, 'a')
@@ -148,7 +155,7 @@ async def switchDayAndReturn(controller_state: ControllerState, connected=False,
         #    int(today.year), int(today.month), int(today.day)]
         current_switch_date[DAY] = 31
         current_switch_date[MONTH] = 12
-        current_switch_date[YEAR] = 2026
+        current_switch_date[YEAR] = 2027
         #print("sync with internet")
         # await button_push(controller_state, 'a')
         # await asyncio.sleep(1)
