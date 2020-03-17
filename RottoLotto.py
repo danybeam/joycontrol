@@ -52,7 +52,7 @@ async def rottoLotto(controller_state: ControllerState, connected=False, first=T
     # A(end to you)
     await button_push(controller_state, 'a')
     print('Roll text: best of luck')
-    await asyncio.sleep(2)  # wait 2
+    await asyncio.sleep(3)  # wait 2
     # A(...)
     await button_push(controller_state, 'a')
     print('Roll text: "..."')

@@ -107,7 +107,7 @@ async def switchDay(controller_state: ControllerState, connected=False):
 
     # press ok
     await button_push(controller_state, 'a')
-    await asyncio.sleep(1)
+    await asyncio.sleep(1.5)
 # END
 
 
