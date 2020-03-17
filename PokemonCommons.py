@@ -73,9 +73,9 @@ async def switchDay(controller_state: ControllerState, connected=False):
     if rollover_m:  # go left then press up
         print("Go left to month")
         await button_push(controller_state, 'left')
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.5)
         await button_push(controller_state, 'up')
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.5)
         current_switch_date[DAY] = 1  # month rollover
         current_switch_date[MONTH] += 1
 
@@ -85,25 +85,25 @@ async def switchDay(controller_state: ControllerState, connected=False):
     if rollover_y:  # go right twice then press up
         print("Go right to year")
         await button_push(controller_state, 'right')
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.5)
         await button_push(controller_state, 'right')
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.5)
         await button_push(controller_state, 'up')
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.5)
         current_switch_date[MONTH] = 1
         current_switch_date[YEAR] += 1
 
     # press right 1+ second
     await button_push(controller_state, 'right', sec=2)
-    await asyncio.sleep(1)
+    await asyncio.sleep(0.5)
     await button_push(controller_state, 'left')
-    await asyncio.sleep(1)
+    await asyncio.sleep(0.5)
     await button_push(controller_state, 'left')
-    await asyncio.sleep(1)
+    await asyncio.sleep(0.5)
     await button_push(controller_state, 'down')
-    await asyncio.sleep(1)
-    await button_push(controller_state, 'right', sec=2)
-    await asyncio.sleep(1)
+    await asyncio.sleep(0.5)
+    await button_push(controller_state, 'right', sec=1.2)
+    await asyncio.sleep(0.5)
 
     # press ok
     await button_push(controller_state, 'a')
@@ -153,9 +153,9 @@ async def switchDayAndReturn(controller_state: ControllerState, connected=False,
         #today = date.today()
         # current_switch_date = [
         #    int(today.year), int(today.month), int(today.day)]
-        current_switch_date[DAY] = 31
-        current_switch_date[MONTH] = 12
-        current_switch_date[YEAR] = 2027
+        current_switch_date[DAY] = 28
+        current_switch_date[MONTH] = 2
+        current_switch_date[YEAR] = 2028
         #print("sync with internet")
         # await button_push(controller_state, 'a')
         # await asyncio.sleep(1)
