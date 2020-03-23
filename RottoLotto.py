@@ -32,7 +32,7 @@ async def rottoLotto(controller_state: ControllerState, connected=False, first=T
     # A to chose(end loto id center)
     await button_push(controller_state, 'a')
     print("roll text: connected to servers")
-    await asyncio.sleep(10.7)
+    await asyncio.sleep(0.7)
     # A change text(end you could)
     await button_push(controller_state, 'a')
     print('roll text: well draw a number')
@@ -64,7 +64,7 @@ async def rottoLotto(controller_state: ControllerState, connected=False, first=T
     # A(ID number)
     await button_push(controller_state, 'a')
     print('Roll text: "lets see if it matchesID NUMER"')
-    await asyncio.sleep(4)  # Wait 10
+    await asyncio.sleep(3.5)  # Wait 10
     # A(Congrats)
     await button_push(controller_state, 'a')
     print('roll text: "Congrats"')
