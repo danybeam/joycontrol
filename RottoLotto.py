@@ -98,12 +98,9 @@ async def rottoLotto(controller_state: ControllerState, connected=False, first=T
     print('[EXIT TEXT]')
     await asyncio.sleep(2)
     # A(exit texxt)
-    await button_push(controller_state, 'b')
-    await asyncio.sleep(0.5)
-    await button_push(controller_state, 'b')
-    await asyncio.sleep(0.5)
-    await button_push(controller_state, 'b')
-    await asyncio.sleep(0.5)
+    for _ in range(10):
+        await button_push(controller_state, 'b')
+        await asyncio.sleep(0.3)
     print('clean text buffer')
     # CHANGE DAY
     await switchDayAndReturn(controller_state, connected=True, first=first)
