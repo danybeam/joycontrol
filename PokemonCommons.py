@@ -19,9 +19,10 @@ MONTH = 1
 DAY = 2
 months_30 = {4, 6, 9, 11}
 
+
 class Operation(Enum):
-    GMAX=1
-    ROTOLOTTO=2
+    GMAX = 1
+    ROTOLOTTO = 2
 
 
 # FINISHED
@@ -41,6 +42,7 @@ def isLeap(year: int):
 async def switchDay_gmax(controller_state: ControllerState, connected=False):
     if not connected:
         await connectControl(controller_state)
+        connected = True
 
     rollover_m = False
     rollover_y = False
@@ -115,9 +117,11 @@ async def switchDay_gmax(controller_state: ControllerState, connected=False):
     await asyncio.sleep(1.5)
 # END
 
+
 async def switchDay_roto(controller_state: ControllerState, connected=False):
     if not connected:
         await connectControl(controller_state)
+        connected = True
 
     # press right to highlight day
     print("highlight day")
@@ -149,7 +153,7 @@ async def switchDay_roto(controller_state: ControllerState, connected=False):
 async def switchDayAndReturn(controller_state: ControllerState, connected=False, first=True, operation=Operation.ROTOLOTTO):
     if not connected:
         await connectControl(controller_state)
-        connected=True
+        connected = True
 
     # exit game
     print("going home")
@@ -205,9 +209,9 @@ async def switchDayAndReturn(controller_state: ControllerState, connected=False,
     await asyncio.sleep(1)
     # switch day
     if operation == Operation.GMAX:
-        switchDay_gmax(controller_state,connected=connected)
+        switchDay_gmax(controller_state, connected=connected)
     elif operation == Operation.ROTOLOTTO:
-        switchDay_roto(controller_state,connected=connected)
+        switchDay_roto(controller_state, connected=connected)
     else:
         raise KeyError(f'{operation} is not implemented yet')
     # return home
