@@ -209,9 +209,9 @@ async def switchDayAndReturn(controller_state: ControllerState, connected=False,
     await asyncio.sleep(1)
     # switch day
     if operation == Operation.GMAX:
-        switchDay_gmax(controller_state, connected=connected)
+        await switchDay_gmax(controller_state, connected=connected)
     elif operation == Operation.ROTOLOTTO:
-        switchDay_roto(controller_state, connected=connected)
+        await switchDay_roto(controller_state, connected=connected)
     else:
         raise KeyError(f'{operation} is not implemented yet')
     # return home

@@ -1,13 +1,12 @@
 
+from joycontrol.server import create_hid_server
+from joycontrol.protocol import controller_protocol_factory, Controller
+from joycontrol.controller_state import ControllerState, button_push
+from joycontrol import logging_default as log
+import logging
 import asyncio
 from PokemonCommons import *
 logger = logging.getLogger(__name__)
-
-import logging
-from joycontrol import logging_default as log
-from joycontrol.controller_state import ControllerState, button_push
-from joycontrol.protocol import controller_protocol_factory, Controller
-from joycontrol.server import create_hid_server
 
 
 async def rottoLotto(controller_state: ControllerState, connected=False, first=True):
@@ -16,31 +15,31 @@ async def rottoLotto(controller_state: ControllerState, connected=False, first=T
     # Press A for prompt
     await button_push(controller_state, 'a')
     print("trigger Rottom")
-    await asyncio.sleep(0.7)
+    await asyncio.sleep(1)
     # A again for decision box
     await button_push(controller_state, 'a')
     print("open decision box")
-    await asyncio.sleep(0.7)
+    await asyncio.sleep(1)
     # Dowm 1 for rotto lotto
     await button_push(controller_state, 'down')
     print("highlight rotto lotto")
-    await asyncio.sleep(0.7)
+    await asyncio.sleep(1)
     # A to chose(end loto id center)
     await button_push(controller_state, 'a')
     print("chose rotto lotto")
-    await asyncio.sleep(0.7)
+    await asyncio.sleep(1)
     # A to chose(end loto id center)
     await button_push(controller_state, 'a')
     print("roll text: connected to servers")
-    await asyncio.sleep(0.7)
+    await asyncio.sleep(1)
     # A change text(end you could)
     await button_push(controller_state, 'a')
     print('roll text: well draw a number')
-    await asyncio.sleep(0.7)
+    await asyncio.sleep(1)
     # A  change text(end prices)
     await button_push(controller_state, 'a')
     print('roll text: fabulous prizes')
-    await asyncio.sleep(0.7)
+    await asyncio.sleep(1)
     # A save
     await button_push(controller_state, 'a')
     print('Trigger save')
@@ -48,7 +47,7 @@ async def rottoLotto(controller_state: ControllerState, connected=False, first=T
     # A(end text progress)
     await button_push(controller_state, 'a')
     print('roll text: saved progress')
-    await asyncio.sleep(0.7)
+    await asyncio.sleep(1)
     # A(end to you)
     await button_push(controller_state, 'a')
     print('Roll text: best of luck')
@@ -56,11 +55,11 @@ async def rottoLotto(controller_state: ControllerState, connected=False, first=T
     # A(...)
     await button_push(controller_state, 'a')
     print('Roll text: "..."')
-    await asyncio.sleep(0.7)
+    await asyncio.sleep(1)
     # A Number
     await button_push(controller_state, 'a')
     print('Roll text: [ID NUMER]')
-    await asyncio.sleep(0.7)
+    await asyncio.sleep(1)
     # A(ID number)
     await button_push(controller_state, 'a')
     print('Roll text: "lets see if it matchesID NUMER"')
@@ -68,15 +67,15 @@ async def rottoLotto(controller_state: ControllerState, connected=False, first=T
     # A(Congrats)
     await button_push(controller_state, 'a')
     print('roll text: "Congrats"')
-    await asyncio.sleep(0.7)
+    await asyncio.sleep(1)
     # A(name of poke)
     await button_push(controller_state, 'a')
     print('Roll text: it matches [NAME OF POKE]')
-    await asyncio.sleep(0.7)
+    await asyncio.sleep(1)
     # A(number of digits matched)
     await button_push(controller_state, 'a')
     print('Roll text: [NUMBER OF MATCHED DIGITS]')
-    await asyncio.sleep(0.7)
+    await asyncio.sleep(1)
     # A(prize)
     await button_push(controller_state, 'a')
     print('Roll text: [PRIZE]')
@@ -84,15 +83,15 @@ async def rottoLotto(controller_state: ControllerState, connected=False, first=T
     # A(you obtained item)
     await button_push(controller_state, 'a')
     print('roll text: [OBTAIN ITEM]')
-    await asyncio.sleep(0.7)
+    await asyncio.sleep(1)
     # A(put item in bag)
     await button_push(controller_state, 'a')
     print('roll text: [PUT ITEM IN BAG]')
-    await asyncio.sleep(0.7)
+    await asyncio.sleep(1)
     # A(next attempt)
     await button_push(controller_state, 'a')
     print('roll text: "see you next attempt"')
-    await asyncio.sleep(0.7)
+    await asyncio.sleep(1)
     # A(exit texxt)
     await button_push(controller_state, 'a')
     print('[EXIT TEXT]')
