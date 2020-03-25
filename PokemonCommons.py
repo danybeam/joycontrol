@@ -4,6 +4,7 @@ from datetime import date
 import logging
 import os
 from contextlib import contextmanager
+from enum import Enum
 
 from joycontrol import logging_default as log
 from joycontrol.controller_state import ControllerState, button_push
@@ -17,6 +18,10 @@ YEAR = 0
 MONTH = 1
 DAY = 2
 months_30 = {4, 6, 9, 11}
+
+class Operation(Enum):
+    GMAX=1
+    ROTOLOTTO=2
 
 
 # FINISHED
@@ -33,7 +38,7 @@ def isLeap(year: int):
     return False
 
 
-async def switchDay(controller_state: ControllerState, connected=False):
+async def switchDay_gmax(controller_state: ControllerState, connected=False):
     if not connected:
         await connectControl(controller_state)
 
@@ -110,11 +115,41 @@ async def switchDay(controller_state: ControllerState, connected=False):
     await asyncio.sleep(1.5)
 # END
 
-
-# FINISHED
-async def switchDayAndReturn(controller_state: ControllerState, connected=False, first=True):
+async def switchDay_roto(controller_state: ControllerState, connected=False):
     if not connected:
         await connectControl(controller_state)
+
+    # press right to highlight day
+    print("highlight day")
+    await button_push(controller_state, 'right')
+    await asyncio.sleep(0.5)
+    # press up to add day
+    print("add day")
+    await button_push(controller_state, 'up')
+    await asyncio.sleep(0.5)
+    # press right 1+ second
+    await button_push(controller_state, 'right', sec=1.5)
+    await asyncio.sleep(0.5)
+    await button_push(controller_state, 'left')
+    await asyncio.sleep(0.5)
+    await button_push(controller_state, 'left')
+    await asyncio.sleep(0.5)
+    await button_push(controller_state, 'down')
+    await asyncio.sleep(0.5)
+    await button_push(controller_state, 'right', sec=1.2)
+    await asyncio.sleep(0.5)
+
+    # press ok
+    await button_push(controller_state, 'a')
+    await asyncio.sleep(1.5)
+# END
+
+
+# FINISHED
+async def switchDayAndReturn(controller_state: ControllerState, connected=False, first=True, operation=Operation.ROTOLOTTO):
+    if not connected:
+        await connectControl(controller_state)
+        connected=True
 
     # exit game
     print("going home")
@@ -169,7 +204,12 @@ async def switchDayAndReturn(controller_state: ControllerState, connected=False,
     await button_push(controller_state, 'a')
     await asyncio.sleep(1)
     # switch day
-    await switchDay(controller_state, connected=True)
+    if operation == Operation.GMAX:
+        switchDay_gmax(controller_state,connected=connected)
+    elif operation == Operation.ROTOLOTTO:
+        switchDay_roto(controller_state,connected=connected)
+    else:
+        raise KeyError(f'{operation} is not implemented yet')
     # return home
     print("return home")
     await button_push(controller_state, 'home')
