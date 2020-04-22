@@ -23,7 +23,7 @@ async def DiggingDuo(controller_state: ControllerState, connected=False, first=T
         await connectControl(controller_state)
     while True:
         await button_push(controller_state, 'a')
-        await asyncio.sleep(0.5)
+        await asyncio.sleep(0.3)
 
 
 async def _main(controller, capture_file=None, spi_flash=None):
