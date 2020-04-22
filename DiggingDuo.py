@@ -34,7 +34,7 @@ async def _main(controller, capture_file=None, spi_flash=None):
 
     await connectControl(controller_state)
 
-    await DiggingDuo(controller_state, connected=True, first=first)
+    await DiggingDuo(controller_state, connected=True, first=True)
 
     logger.info('Stopping communication...')
     await transport.close()
