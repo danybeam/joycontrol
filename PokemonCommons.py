@@ -6,9 +6,14 @@ import os
 from contextlib import contextmanager
 from enum import Enum
 
-from joycontrol import logging_default as log
+from aioconsole import ainput
+
+from joycontrol import logging_default as log, utils
+from joycontrol.command_line_interface import ControllerCLI
+from joycontrol.controller import Controller
 from joycontrol.controller_state import ControllerState, button_push
-from joycontrol.protocol import controller_protocol_factory, Controller
+from joycontrol.memory import FlashMemory
+from joycontrol.protocol import controller_protocol_factory
 from joycontrol.server import create_hid_server
 
 
